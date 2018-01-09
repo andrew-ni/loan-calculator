@@ -21,9 +21,26 @@ function calculateResults(event) {
   if (isFinite(monthly)) {
     UImonthlyPayment.value = monthly.toFixed(2);
     UItotalPayment.value = (monthly * calculatedPayments).toFixed(2);
+    UItotalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
   } else {
-
+    showError('Please check inputs');
   }
 
   event.preventDefault();
+}
+
+function showError(message) {
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'alert alert-danger';
+  errorDiv.appendChild(document.createTextNode(message));
+
+  const card = document.querySelector('.card');
+  const heading = document.querySelector('.heading');
+  card.insertBefore(errorDiv, heading);
+
+  setTimeout(clearError, 3000);
+}
+
+function clearError() {
+  document.querySelector('.alert').remove();
 }
